@@ -206,35 +206,38 @@ function animate() {
   let amp = 1/20;
   let freq = 3;
   let sinBob = amp*Math.sin(time*freq*Math.PI*2);
-  let cosBob = amp*Math.cos(time*freq*Math.PI*2);
-  if(camera.position.y > player.height+0.3 || camera.position.y < 0){
-    sinBob = -amp*Math.sin(time*freq*Math.PI*2);
-    cosBob = -amp*Math.cos(time*freq*Math.PI*2);
-  }
-
   // Movement: W S A D
   if(keyboard[87]){
     camera.position.x -= Math.sin(camera.rotation.y) * player.speed;
     camera.position.y += sinBob;
     camera.position.z -= -Math.cos(camera.rotation.y) * player.speed;
   }
-  if(keyboard[83]){
+  else if(keyboard[83]){
     camera.position.x += Math.sin(camera.rotation.y) * player.speed;
-    camera.position.y += cosBob;
+    camera.position.y += sinBob;
     camera.position.z += -Math.cos(camera.rotation.y) * player.speed;
   }
-  if(keyboard[65]){
+  else if(keyboard[65]){
     camera.position.x += Math.sin(camera.rotation.y + Math.PI/2) * player.speed;
+    camera.position.y += sinBob;
     camera.position.z += -Math.cos(camera.rotation.y + Math.PI/2) * player.speed;
   }
-  if(keyboard[68]){
+  else if(keyboard[68]){
     camera.position.x += Math.sin(camera.rotation.y - Math.PI/2) * player.speed;
+    camera.position.y += sinBob;
     camera.position.z += -Math.cos(camera.rotation.y - Math.PI/2) * player.speed;
   }
+  else{
+    camera.position.y = player.height;
+  }
+
   
   // Movement: Run(Shift)
   if(keyboard[16]){
     player.speed = 0.3;
+  }
+  else{
+    player.speed = 0.1;
   }
 
   // Camera rotate: Arrow keys
@@ -322,7 +325,6 @@ function animate() {
     camera.rotation.y + Math.PI,
     camera.rotation.z
   );
-
 	renderer.render( scene, camera );
 }
 
