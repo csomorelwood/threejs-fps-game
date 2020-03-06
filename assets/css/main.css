@@ -1,0 +1,15 @@
+
+body { 
+  margin: 0; 
+}
+canvas { 
+  display: block; 
+}
+div.target{
+  position: absolute;
+  color: red;
+  font-weight: 700;
+  font-size: 30px;
+  left: 50%;
+  top: 50%;
+}
