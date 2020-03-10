@@ -20,6 +20,7 @@ let loadScreen = {
 let RESOURCES_LOADED = false;
 let LOADING_MANAGER = null;
 let bullets = [];
+let testHitbox = {a:0,b:0,c:0,d:0,h:0};
 
 function init(){
   scene = new THREE.Scene();
@@ -107,6 +108,18 @@ function init(){
   crate.receiveShadow = true;
   crate.castShadow = true;
 
+  crateive = new THREE.Mesh(
+    new THREE.BoxGeometry(0.2,0.2,0.2),
+    new THREE.MeshPhongMaterial({
+      color: 0xffffff
+    })
+  );
+  scene.add(crateive);
+  crateive.position.set(3.5,0,4.5);
+  testHitbox.a={x:3.5,y:0,z:4.5};
+  testHitbox.b={x:3.5,y:0,z:1.5};
+  testHitbox.h=3;
+
   ambientLight = new THREE.AmbientLight(0xffffff,0.7);
   scene.add(ambientLight);
   ambientLight.position.set(20,-20, 30);
@@ -193,6 +206,11 @@ function animate() {
       continue;
     }
     bullets[i].position.add(bullets[i].velocity);
+    console.log(testHitbox.a.x)
+    if(bullets[i].position.z < testHitbox.a.z && bullets[i].position.z > testHitbox.b.z){
+      console.log("rocket removed")
+      scene.remove(bullets[i]);
+    } 
   }
 
   if(RESOURCES_LOADED == false){
