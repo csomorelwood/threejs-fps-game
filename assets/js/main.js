@@ -6,7 +6,9 @@ let models = {
   traintender: {obj: "./assets/objects/trainTender.obj", mtl: "./assets/objects/trainTender.mtl", mesh: null},
   rocketlauncher: {obj: "./assets/objects/rocketlauncherSide.obj", mtl: "./assets/objects/rocketlauncherSide.mtl", mesh: null},
   rocket: {obj: "./assets/objects/ammo_rocket.obj", mtl: "./assets/objects/ammo_rocket.mtl", mesh: null},
-  grass: {obj: "./assets/objects/LowPolyGrass.obj", mtl: "./assets/objects/LowPolyGrass.mtl", mesh: null}
+  grass: {obj: "./assets/objects/LowPolyGrass.obj", mtl: "./assets/objects/LowPolyGrass.mtl", mesh: null},
+  cat:{obj: "./assets/objects/12221_Cat_v1_l3.obj", mtl: "./assets/objects/12221_Cat_v1_l3.mtl", mesh:null},
+  fa$$:{obj: "./assets/objects/Nevtelen.obj", mtl: "", mesh:null}
 };
 let meshes = {};
 let loadScreen = {
@@ -20,6 +22,7 @@ let loadScreen = {
 let RESOURCES_LOADED = false;
 let LOADING_MANAGER = null;
 let bullets = [];
+let hits = [];
 let testHitbox = {a:0,b:0,c:0,d:0,h:0};
 
 function init(){
@@ -115,9 +118,9 @@ function init(){
     })
   );
   scene.add(crateive);
-  crateive.position.set(3.5,0,4.5);
+  crateive.position.set(0.5,0,4.5);
   testHitbox.a={x:3.5,y:0,z:4.5};
-  testHitbox.b={x:3.5,y:0,z:1.5};
+  testHitbox.b={x:0.5,y:0,z:1.5};
   testHitbox.h=3;
 
   ambientLight = new THREE.AmbientLight(0xffffff,0.7);
@@ -152,6 +155,17 @@ function init(){
     })(_key);
   }
 
+  let zolitexture = new textureLoader.load('./assets/images/zolba_2.png');
+  let zoliba=new THREE.Mesh(
+    new THREE.SphereGeometry(2,32,32),
+    new THREE.MeshPhongMaterial({
+      color: 0xfefefe,
+      map:zolitexture
+    })
+  );
+  scene.add(zoliba);
+  zoliba.position.set(-5,2,-5);
+
   camera.position.set(0,player.height,-5);
   camera.lookAt(new THREE.Vector3(0,player.height,0));
   
@@ -181,10 +195,20 @@ function onResourcesLoaded(){
   meshes["grass"] = models.grass.mesh.clone();
   meshes["grass"].scale.set(0.5,0.5,0.5);
 
+  meshes["cat"] = models.cat.mesh.clone();
+  meshes["cat"].position.set(10,0,15);
+  meshes["cat"].scale.set(0.05,0.05,0.05);
+  meshes["cat"].rotation.x -= Math.PI/2;
+
+  meshes["fa$$"] = models.fa$$.mesh.clone();
+  meshes["fa$$"].position.set(0,0,0);
+  meshes["fa$$"].scale.set(5,5,5);
+
+  scene.add(meshes["cat"]);
   scene.add(meshes["trainT"]);
   scene.add(meshes["treeDecor"]);
   scene.add(meshes["rocketL"]);
-
+  scene.add(meshes["fa$$"]);
   
   // Grass
   for(let i=0;i<20;i++){
@@ -205,12 +229,34 @@ function animate() {
       bullets.splice(i,1);
       continue;
     }
+    // Rakéta eltűntetés találatkor
     bullets[i].position.add(bullets[i].velocity);
-    console.log(testHitbox.a.x)
-    if(bullets[i].position.z < testHitbox.a.z && bullets[i].position.z > testHitbox.b.z){
+    if(bullets[i].position.z < testHitbox.a.z && bullets[i].position.z > testHitbox.b.z && bullets[i].position.x < testHitbox.a.x && bullets[i].position.x > testHitbox.b.x){
       console.log("rocket removed")
+      bullets[i].alive=false;
       scene.remove(bullets[i]);
+      let hit = new THREE.Mesh(
+        new THREE.SphereGeometry(0.1,32,32),
+        new THREE.MeshPhongMaterial({
+          color: 0xfefefe
+        })
+      );
+      hit.position.set(bullets[i].position.x,bullets[i].position.y,bullets[i].position.z);
+      hit.alive= true;
+      setTimeout(function(){
+        hit.alive = false;
+        scene.remove(hit);
+      },10000);
+      hits.push(hit);
+      scene.add(hit);
     } 
+  }
+  for(let i=0;i<hits.length;i++){
+    if(hits[i]==undefined)continue;
+    if(hits[i].alive == false){
+      hits.splice(i,1);
+      continue;
+    }
   }
 
   if(RESOURCES_LOADED == false){
@@ -224,31 +270,61 @@ function animate() {
   let amp = 1/20;
   let freq = 3;
   let sinBob = amp*Math.sin(time*freq*Math.PI*2);
+
   // Movement: W S A D
   if(keyboard[87]){
     camera.position.x -= Math.sin(camera.rotation.y) * player.speed;
     camera.position.y += sinBob;
     camera.position.z -= -Math.cos(camera.rotation.y) * player.speed;
+    // Objektumnak ütközés
+    if(camera.position.z < testHitbox.a.z && camera.position.z > testHitbox.b.z && camera.position.x < testHitbox.a.x && camera.position.x > testHitbox.b.x){
+      console.log("there is an object");
+      camera.position.x += Math.sin(camera.rotation.y) * player.speed;
+      camera.position.y -= sinBob;
+      camera.position.z += -Math.cos(camera.rotation.y) * player.speed;
+    }
   }
   else if(keyboard[83]){
     camera.position.x += Math.sin(camera.rotation.y) * player.speed;
     camera.position.y += sinBob;
     camera.position.z += -Math.cos(camera.rotation.y) * player.speed;
+    // Objektumnak ütközés
+    if(camera.position.z < testHitbox.a.z && camera.position.z > testHitbox.b.z && camera.position.x < testHitbox.a.x && camera.position.x > testHitbox.b.x){
+      console.log("there is an object");
+      camera.position.x -= Math.sin(camera.rotation.y) * player.speed;
+      camera.position.y -= sinBob;
+      camera.position.z -= -Math.cos(camera.rotation.y) * player.speed;
+    }
   }
   else if(keyboard[65]){
     camera.position.x += Math.sin(camera.rotation.y + Math.PI/2) * player.speed;
     camera.position.y += sinBob;
     camera.position.z += -Math.cos(camera.rotation.y + Math.PI/2) * player.speed;
+    // Objektumnak ütközés
+    if(camera.position.z < testHitbox.a.z && camera.position.z > testHitbox.b.z && camera.position.x < testHitbox.a.x && camera.position.x > testHitbox.b.x){
+      console.log("there is an object");
+      camera.position.x -= Math.sin(camera.rotation.y + Math.PI/2) * player.speed;
+      camera.position.y -= sinBob;
+      camera.position.z -= -Math.cos(camera.rotation.y + Math.PI/2) * player.speed;
+    }
   }
   else if(keyboard[68]){
     camera.position.x += Math.sin(camera.rotation.y - Math.PI/2) * player.speed;
     camera.position.y += sinBob;
     camera.position.z += -Math.cos(camera.rotation.y - Math.PI/2) * player.speed;
+    // Objektumnak ütközés
+    if(camera.position.z < testHitbox.a.z && camera.position.z > testHitbox.b.z && camera.position.x < testHitbox.a.x && camera.position.x > testHitbox.b.x){
+      console.log("there is an object");
+      camera.position.x -= Math.sin(camera.rotation.y - Math.PI/2) * player.speed;
+      camera.position.y -= sinBob;
+      camera.position.z -= -Math.cos(camera.rotation.y - Math.PI/2) * player.speed;
+    }
   }
   else{
     camera.position.y = player.height;
   }
 
+  
   
   // Movement: Run(Shift)
   if(keyboard[16]){
@@ -343,6 +419,30 @@ function animate() {
     camera.rotation.y + Math.PI,
     camera.rotation.z
   );
+
+  // MacskAI
+  meshes["cat"].position.x += Math.random()*0.1 -0.01;
+  meshes["cat"].position.z += Math.random()*0.1 -0.01;
+  /*
+  meshes["cat"].position.x += Math.random()*0.2 -0.2;
+  meshes["cat"].position.z += Math.random()*0.2 -0.2;
+  meshes["cat"].position.y += Math.random()*0.1;
+  meshes["cat"].rotation.z += Math.PI/10;
+  meshes["cat"].rotation.x += Math.PI/10;
+  meshes["cat"].rotation.y += Math.PI/10;
+  meshes["cat"].scale.x += 0.001;
+  meshes["cat"].scale.y += 0.001;
+  meshes["cat"].scale.z += 0.001;
+
+  if(keyboard[192]){
+    meshes["fa$$"].position.y += 0.1;
+  }
+  if(keyboard[191]){
+    meshes["fa$$"].position.y -= 0.1;
+  }
+*/
+
+
 	renderer.render( scene, camera );
 }
 
