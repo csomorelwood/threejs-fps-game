@@ -1,0 +1,120 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 07.02.2016 22:05:40
+
+newmtl wire_000255000
+	Ns 32
+	d 1
+	Tr 0
+	Tf 1 1 1
+	illum 2
+	Ka 0.0000 1.0000 0.0000
+	Kd 0.0000 1.0000 0.0000
+	Ks 0.3500 0.3500 0.3500
+
+newmtl Material__7
+	Ns 25.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0641 0.1582 0.1817
+	Kd 0.6510 0.3020 0.7373
+	Ks 0.0450 0.0450 0.0450
+	Ke 0.0000 0.0000 0.0000
+
+newmtl Material__3
+	Ns 24.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0889 0.0641 0.1817
+	Kd 0.0000 0.0000 0.0000
+	Ks 0.1143 0.1014 0.3686
+	Ke 0.0000 0.0000 0.0000
+	map_bump C:\Documents and Settings\glenn\Desktop\opticus.jpg
+	bump C:\Documents and Settings\glenn\Desktop\opticus.jpg
+
+newmtl wire_252252252
+	Ns 32
+	d 1
+	Tr 0
+	Tf 1 1 1
+	illum 2
+	Ka 0.9882 0.9882 0.9882
+	Kd 0.9882 0.9882 0.9882
+	Ks 0.3500 0.3500 0.3500
+
+newmtl Material__13
+	Ns 27.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0641 0.1294 0.2261
+	Kd 0.0000 0.0000 0.0000
+	Ks 0.8100 0.8100 0.8100
+	Ke 0.0000 0.0000 0.0000
+
+newmtl Material__2
+	Ns 25.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0667 0.1843 0.0588
+	Kd 1.0000 0.9647 0.0000
+	Ks 0.5400 0.5400 0.5400
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Documents and Settings\glenn\Desktop\blue.jpg
+	map_Kd C:\Documents and Settings\glenn\Desktop\blue.jpg
+	map_bump C:\Documents and Settings\glenn\Desktop\blue.jpg
+	bump C:\Documents and Settings\glenn\Desktop\blue.jpg
+	map_refl C:\Documents and Settings\glenn\Desktop\SUNSET.JPG
+
+newmtl Material__14
+	Ns 32.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2157 0.0641 0.1255
+	Kd 0.1137 0.1098 0.0000
+	Ks 0.2827 0.2972 0.1081
+	Ke 0.0000 0.0000 0.0000
+
+newmtl Material__9
+	Ns 25.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2131 0.1830 0.0641
+	Kd 0.6392 0.5490 0.1922
+	Ks 0.0450 0.0450 0.0450
+	Ke 0.0000 0.0000 0.0000
+	map_bump C:\Documents and Settings\glenn\Desktop\opticus.jpg
+	bump C:\Documents and Settings\glenn\Desktop\opticus.jpg
+
+newmtl Material__21
+	Ns 25.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0667 0.1843 0.0588
+	Kd 1.0000 0.9647 0.0000
+	Ks 0.7380 0.7380 0.7380
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Documents and Settings\glenn\Desktop\blue.jpg
+	map_Kd C:\Documents and Settings\glenn\Desktop\blue.jpg
+	map_bump C:\Documents and Settings\glenn\Desktop\blue.jpg
+	bump C:\Documents and Settings\glenn\Desktop\blue.jpg
+	map_refl C:\Documents and Settings\glenn\Desktop\SUNSET.JPG

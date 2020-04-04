@@ -8,7 +8,8 @@ let models = {
   rocket: {obj: "./assets/objects/ammo_rocket.obj", mtl: "./assets/objects/ammo_rocket.mtl", mesh: null},
   grass: {obj: "./assets/objects/LowPolyGrass.obj", mtl: "./assets/objects/LowPolyGrass.mtl", mesh: null},
   cat:{obj: "./assets/objects/12221_Cat_v1_l3.obj", mtl: "./assets/objects/12221_Cat_v1_l3.mtl", mesh:null},
-  fa$$:{obj: "./assets/objects/Nevtelen.obj", mtl: "", mesh:null}
+  tree2:{obj: "./assets/objects/LowTree.obj", mtl: "./assets/objects/LowTree.mtl", mesh:null},
+  hummingbird:{obj: "./assets/objects/hummingbird.obj", mtl: "./assets/objects/hummingbird.mtl", mesh:null}
 };
 let meshes = {};
 let loadScreen = {
@@ -154,7 +155,7 @@ function init(){
       });
     })(_key);
   }
-
+/*
   let zolitexture = new textureLoader.load('./assets/images/zolba_2.png');
   let zoliba=new THREE.Mesh(
     new THREE.SphereGeometry(2,32,32),
@@ -165,6 +166,7 @@ function init(){
   );
   scene.add(zoliba);
   zoliba.position.set(-5,2,-5);
+  */
 
   camera.position.set(0,player.height,-5);
   camera.lookAt(new THREE.Vector3(0,player.height,0));
@@ -200,23 +202,48 @@ function onResourcesLoaded(){
   meshes["cat"].scale.set(0.05,0.05,0.05);
   meshes["cat"].rotation.x -= Math.PI/2;
 
-  meshes["fa$$"] = models.fa$$.mesh.clone();
-  meshes["fa$$"].position.set(0,0,0);
-  meshes["fa$$"].scale.set(5,5,5);
+  meshes["tree"] = models.tree2.mesh.clone();
+  meshes["tree"].scale.set(0.2,0.2,0.2);
+  meshes["tree"].rotation.x -= Math.PI/2;
+
+  meshes["hummingbird"] = models.hummingbird.mesh.clone();
+  meshes["hummingbird"].scale.set(0.001,0.001,0.001);
+  meshes["hummingbird"].position.set(1,10,1);
+
+  
+  meshes["hummingbird2"] = models.hummingbird.mesh.clone();
+  meshes["hummingbird2"].scale.set(0.001,0.001,0.001);
+  meshes["hummingbird2"].position.set(10,13,-5);
+
+  
+  meshes["hummingbird3"] = models.hummingbird.mesh.clone();
+  meshes["hummingbird3"].scale.set(0.001,0.001,0.001);
+  meshes["hummingbird3"].position.set(11,9,21);
 
   scene.add(meshes["cat"]);
   scene.add(meshes["trainT"]);
   scene.add(meshes["treeDecor"]);
   scene.add(meshes["rocketL"]);
-  scene.add(meshes["fa$$"]);
+  scene.add(meshes["hummingbird"]);
+  scene.add(meshes["hummingbird2"]);
+  scene.add(meshes["hummingbird3"]);
   
   // Grass
-  for(let i=0;i<20;i++){
-    let posX = Math.random()*20;
-    let posZ = Math.random()*20 + 3;
+  for(let i=0;i<100;i++){
+    let posX = Math.random()*100;
+    let posZ = Math.random()*100 + 3;
     let grass = meshes["grass"].clone();
     scene.add(grass);
     grass.position.set(posX,0,posZ);
+  }
+
+  //Tree random
+  for(let i=0;i<40;i++){
+    let posX = Math.random()*100;
+    let posZ = Math.random()*100 + 3;
+    let tree = meshes["tree"].clone();
+    scene.add(tree);
+    tree.position.set(posX,0,posZ);
   }
 }
 
@@ -421,8 +448,9 @@ function animate() {
   );
 
   // MacskAI
-  meshes["cat"].position.x += Math.random()*0.1 -0.01;
+  meshes["cat"].position.x += Math.sin(time)*0.1 -0.01;
   meshes["cat"].position.z += Math.random()*0.1 -0.01;
+  meshes["cat"].rotation.z += Math.cos(time)*0.01;
   /*
   meshes["cat"].position.x += Math.random()*0.2 -0.2;
   meshes["cat"].position.z += Math.random()*0.2 -0.2;
@@ -433,14 +461,21 @@ function animate() {
   meshes["cat"].scale.x += 0.001;
   meshes["cat"].scale.y += 0.001;
   meshes["cat"].scale.z += 0.001;
-
-  if(keyboard[192]){
-    meshes["fa$$"].position.y += 0.1;
-  }
-  if(keyboard[191]){
-    meshes["fa$$"].position.y -= 0.1;
-  }
 */
+
+  //Madár AI
+  meshes["hummingbird"].position.x += Math.sin(time)*0.1;
+  meshes["hummingbird"].position.z += Math.cos(time)*0.2;
+  meshes["hummingbird"].rotation.y += Math.sin(time)*0.02;
+  
+  meshes["hummingbird2"].position.x += Math.sin(time)*0.1;
+  meshes["hummingbird2"].position.z += Math.cos(time)*0.2;
+  meshes["hummingbird2"].rotation.y += Math.sin(time)*0.02;
+  
+  meshes["hummingbird3"].position.x += Math.cos(time)*0.1;
+  meshes["hummingbird3"].position.z += Math.sin(time)*0.2;
+  meshes["hummingbird3"].rotation.y += Math.cos(time)*0.02;
+  
 
 
 	renderer.render( scene, camera );
